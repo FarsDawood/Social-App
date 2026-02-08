@@ -14,11 +14,11 @@ export default function App() {
       children: [
         { path: "", element: <Home /> },
         { path: "home", element: <Home /> },
-        { path: "login", element: <Login /> },
-        { path: "register", element: <Register /> },
         { path: "*", element: <NotFound /> },
       ],
     },
+    { path: "login", element: <Login /> },
+    { path: "register", element: <Register /> },
   ]);
 
   return (
