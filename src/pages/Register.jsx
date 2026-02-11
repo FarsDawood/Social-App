@@ -37,7 +37,7 @@ export default function Register() {
     }
   }
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-green-950 p-4">
+    <>
       <form
         onSubmit={(e) => handleSubmit(e)}
         className="max-w-md w-full bg-green-50 p-8 rounded-2xl shadow-2xl flex flex-col"
@@ -164,6 +164,6 @@ export default function Register() {
           </span>
         </p>
       </form>
-    </div>
+    </>
   );
 }

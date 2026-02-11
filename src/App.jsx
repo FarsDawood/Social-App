@@ -1,24 +1,32 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout from "./components/Layout/Layout";
-import Home from "./components/Home/Home";
-import Login from "./components/Login/Login";
-import Register from "./components/Register/Register";
-import NotFound from "./components/NotFound/NotFound";
+import MainLayout from "./layouts/MainLayout";
+import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
+import AuthLayout from "./layouts/AuthLayout";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Feed from './pages/Feed';
 
 export default function App() {
   const router = createBrowserRouter([
     {
       path: "",
-      element: <Layout />,
+      element: <MainLayout />,
       children: [
-        { path: "", element: <Home /> },
-        { path: "home", element: <Home /> },
+        { path: "", element: <Feed /> },
+        { path: "profile", element: <Profile /> },
         { path: "*", element: <NotFound /> },
       ],
     },
-    { path: "login", element: <Login /> },
-    { path: "register", element: <Register /> },
+    {
+      path: "",
+      element: <AuthLayout />,
+      children: [
+        { path: "login", element: <Login /> },
+        { path: "register", element: <Register /> },
+      ],
+    },
   ]);
 
   return (
