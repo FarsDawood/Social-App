@@ -1,4 +1,5 @@
 import React from "react";
+import {HeroUIProvider} from "@heroui/react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import Profile from "./pages/Profile";
@@ -31,6 +32,8 @@ export default function App() {
 
   return (
     <>
+        <HeroUIProvider>
+
       <RouterProvider router={router} />
     </>
   );
