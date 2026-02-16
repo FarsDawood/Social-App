@@ -1,42 +1,15 @@
-import React, { useState } from "react";
 import { Input, Button, RadioGroup, Radio } from "@heroui/react";
+import { useForm } from "react-hook-form";
 
 export default function Register() {
-  const [name, setname] = useState("");
-  const [email, setemail] = useState("");
-  const [password, setpassword] = useState("");
-  const [rePassword, setrePassword] = useState("");
-  const [dateOfBirth, setdateOfBirth] = useState("");
-  const [gender, setgender] = useState("male");
+  const { register, handleSubmit } = useForm();
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log(e);
-    console.log({ name, email, password, rePassword, dateOfBirth, gender });
+
+  function onSubmit(data) {
+    console.log("Form Data Submitted:", data);
   }
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    switch (name) {
-      case "name":
-        setname(value);
-        break;
-      case "email":
-        setemail(value);
-        break;
-      case "password":
-        setpassword(value);
-        break;
-      case "rePassword":
-        setrePassword(value);
-        break;
-      case "dateOfBirth":
-        setdateOfBirth(value);
-        break;
-      default:
-        break;
-    }
-  }
+  
 
   function getInputProps(_name, _type, _label, _placeholder) {
     return {
@@ -47,13 +20,14 @@ export default function Register() {
       labelPlacement: "outside",
       variant: "bordered",
       required: true,
+      ...register(_name)
     };
   }
 
   return (
     <div className="w-full max-w-md">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className="bg-white p-8 rounded-2xl shadow-2xl flex flex-col gap-6"
       >
         <h2 className="text-2xl font-bold text-slate-900 text-center uppercase tracking-wider mb-2">
@@ -67,8 +41,7 @@ export default function Register() {
             "Full Name",
             "Enter your full name",
           )}
-          value={name}
-          onChange={handleChange}
+          
         />
 
         <Input
@@ -78,33 +51,28 @@ export default function Register() {
             "Email Address",
             "example@mail.com",
           )}
-          value={email}
-          onChange={handleChange}
+          
         />
 
         <div className="flex gap-4">
           <Input
             {...getInputProps("password", "password", "Password", "••••••••")}
-            value={password}
-            onChange={handleChange}
+            
           />
           <Input
             {...getInputProps("rePassword", "password", "Confirm", "••••••••")}
-            value={rePassword}
-            onChange={handleChange}
+            
           />
         </div>
 
         <Input
           {...getInputProps("dateOfBirth", "date", "Birth date", "")}
-          value={dateOfBirth}
-          onChange={handleChange}
+          
         />
         <RadioGroup
           label="Gender"
           orientation="horizontal"
-          value={gender}
-          onValueChange={setgender}
+          {...register("gender")}
         >
           <Radio
             value="male"
