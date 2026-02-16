@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Input, Button, RadioGroup, Radio } from "@heroui/react";
 
 export default function Register() {
   const [name, setname] = useState("");
@@ -7,10 +8,13 @@ export default function Register() {
   const [rePassword, setrePassword] = useState("");
   const [dateOfBirth, setdateOfBirth] = useState("");
   const [gender, setgender] = useState("male");
+
   function handleSubmit(e) {
     e.preventDefault();
+    console.log(e);
     console.log({ name, email, password, rePassword, dateOfBirth, gender });
   }
+
   function handleChange(e) {
     const { name, value } = e.target;
     switch (name) {
@@ -29,141 +33,114 @@ export default function Register() {
       case "dateOfBirth":
         setdateOfBirth(value);
         break;
-      case "gender":
-        setgender(value);
-        break;
       default:
         break;
     }
   }
+
+  function getInputProps(_name, _type, _label, _placeholder) {
+    return {
+      name: _name,
+      label: _label,
+      type: _type,
+      placeholder: _placeholder,
+      labelPlacement: "outside",
+      variant: "bordered",
+      required: true,
+    };
+  }
+
   return (
-    <>
+    <div className="w-full max-w-md">
       <form
-        onSubmit={(e) => handleSubmit(e)}
-        className="max-w-md w-full bg-green-50 p-8 rounded-2xl shadow-2xl flex flex-col"
+        onSubmit={handleSubmit}
+        className="bg-white p-8 rounded-2xl shadow-2xl flex flex-col gap-6"
       >
-        <h2 className="text-2xl font-bold text-slate-900 mb-8 text-center uppercase tracking-wider">
+        <h2 className="text-2xl font-bold text-slate-900 text-center uppercase tracking-wider mb-2">
           Create Account
         </h2>
 
-        {/* Inputs Group */}
-        {[
-          { id: "name", value: name, label: "Full Name", type: "text" },
-          {
-            id: "email",
-            value: email,
-            label: "Email Address",
-            type: "email",
-          },
-          {
-            id: "password",
-            value: password,
-            label: "Password",
-            type: "password",
-          },
-          {
-            id: "rePassword",
-            value: rePassword,
-            label: "Confirm Password",
-            type: "password",
-          },
-        ].map((field) => (
-          <div key={field.id} className="relative z-0 w-full mb-6 group">
-            <input
-              onChange={(e) => handleChange(e)}
-              value={field.value}
-              type={field.type}
-              name={field.id}
-              id={field.id}
-              className="block py-2.5 px-0 w-full text-sm text-slate-900 bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-slate-900 peer transition-colors duration-300"
-              placeholder=" "
-              required
-            />
-            <label
-              htmlFor={field.id}
-              className="absolute text-sm text-slate-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left peer-focus:start-0 peer-focus:text-slate-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              {field.label}
-            </label>
-          </div>
-        ))}
+        <Input
+          {...getInputProps(
+            "name",
+            "text",
+            "Full Name",
+            "Enter your full name",
+          )}
+          value={name}
+          onChange={handleChange}
+        />
 
-        {/* Date Field */}
-        <div className="relative z-0 w-full mb-6 group">
-          <input
-            type="date"
-            name="dateOfBirth"
-            id="date"
-            value={dateOfBirth}
-            onChange={(e) => handleChange(e)}
-            className="block py-2.5 px-0 w-full text-sm text-slate-900 bg-transparent border-0 border-b-2 border-slate-300 appearance-none focus:outline-none focus:ring-0 focus:border-slate-900 peer transition-colors duration-300"
-            required
+        <Input
+          {...getInputProps(
+            "email",
+            "email",
+            "Email Address",
+            "example@mail.com",
+          )}
+          value={email}
+          onChange={handleChange}
+        />
+
+        <div className="flex gap-4">
+          <Input
+            {...getInputProps("password", "password", "Password", "••••••••")}
+            value={password}
+            onChange={handleChange}
           />
-          <label
-            htmlFor="date"
-            className="absolute text-sm text-slate-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-left peer-focus:start-0 peer-focus:text-slate-900 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+          <Input
+            {...getInputProps("rePassword", "password", "Confirm", "••••••••")}
+            value={rePassword}
+            onChange={handleChange}
+          />
+        </div>
+
+        <Input
+          {...getInputProps("dateOfBirth", "date", "Birth date", "")}
+          value={dateOfBirth}
+          onChange={handleChange}
+        />
+        <RadioGroup
+          label="Gender"
+          orientation="horizontal"
+          value={gender}
+          onValueChange={setgender}
+        >
+          <Radio
+            value="male"
+            classNames={{
+              wrapper: "group-data-[selected=true]:border-[#032e15]",
+              control: "bg-[#032e15]",
+            }}
           >
-            Birthday
-          </label>
-        </div>
+            Male
+          </Radio>
+          <Radio
+            value="female"
+            classNames={{
+              wrapper: "group-data-[selected=true]:border-[#032e15]",
+              control: "bg-[#032e15]",
+            }}
+          >
+            Female
+          </Radio>
+        </RadioGroup>
 
-        {/* Gender Selection - Optimized Ratio */}
-        <div className="mb-8">
-          <label className="block text-xs font-semibold text-slate-500 uppercase mb-3">
-            Gender
-          </label>
-          <div className="flex gap-10">
-            <div className="flex items-center">
-              <input
-                id="male"
-                type="radio"
-                name="gender"
-                value="male"
-                onChange={(e) => handleChange(e)}
-                checked={gender === "male"}
-                className="w-4 h-4 text-green-900 border-slate-300 focus:ring-green-900 cursor-pointer"
-              />
-              <label
-                htmlFor="male"
-                className="ms-2 text-sm font-medium text-slate-700 cursor-pointer"
-              >
-                Male
-              </label>
-            </div>
-            <div className="flex items-center">
-              <input
-                id="female"
-                type="radio"
-                name="gender"
-                value="female"
-                onChange={(e) => handleChange(e)}
-                checked={gender === "female"}
-                className="w-4 h-4 text-green-900 border-slate-300 focus:ring-green-900 cursor-pointer"
-              />
-              <label
-                htmlFor="female"
-                className="ms-2 text-sm font-medium text-slate-700 cursor-pointer"
-              >
-                Female
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <button
+        <Button
           type="submit"
-          className="w-full text-white bg-green-900 hover:bg-black focus:ring-4 focus:outline-none focus:ring-green-300 font-bold rounded-lg text-sm px-5 py-4 text-center transition-all duration-300 shadow-md hover:shadow-xl"
+          className="w-full bg-green-900 text-white font-bold shadow-lg hover:bg-black transition-colors py-6"
+          size="lg"
         >
           CREATE ACCOUNT
-        </button>
+        </Button>
 
-        <p className="text-center text-sm text-slate-600 mt-6">
+        <p className="text-center text-sm text-slate-600">
           Already have an account?{" "}
           <span className="text-green-900 font-bold cursor-pointer hover:underline underline-offset-4">
             Login
           </span>
         </p>
       </form>
-    </>
+    </div>
   );
 }
