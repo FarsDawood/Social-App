@@ -1,98 +1,72 @@
-import { Input, Button, RadioGroup, Radio } from "@heroui/react";
+import { Input, Button, RadioGroup, Select, SelectItem } from "@heroui/react";
 import { useForm } from "react-hook-form";
+import { getFormValidation } from "./../validation/signUpFormValidation";
 
 export default function Register() {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({ mode: "onBlur" });
 
-
-  function onSubmit(data) {
-    console.log("Form Data Submitted:", data);
-  }
-
-  
-
-  function getInputProps(_name, _type, _label, _placeholder) {
+  function getInputProps(_type, _label, _placeholder, _field) {
     return {
-      name: _name,
       label: _label,
       type: _type,
       placeholder: _placeholder,
       labelPlacement: "outside",
       variant: "bordered",
-      required: true,
-      ...register(_name)
+      isInvalid: !!_field,
+      errorMessage: _field?.message,
     };
   }
 
+  function onSubmit(data) {
+    console.log("✅ SUCCESS:", data);
+  }
   return (
     <div className="w-full max-w-md">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-8 rounded-2xl shadow-2xl flex flex-col gap-6"
-      >
-        <h2 className="text-2xl font-bold text-slate-900 text-center uppercase tracking-wider mb-2">
-          Create Account
-        </h2>
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-8 rounded-2xl shadow-2xl flex flex-col gap-6">
+        <h2 className="text-2xl font-bold text-slate-900 text-center uppercase tracking-wider mb-2">Create Account</h2>
 
         <Input
-          {...getInputProps(
-            "name",
-            "text",
-            "Full Name",
-            "Enter your full name",
-          )}
-          
+          {...getInputProps("text", "Full Name", "Enter your full name", errors.name)}
+          {...register("name", getFormValidation(watch).name)}
         />
 
         <Input
-          {...getInputProps(
-            "email",
-            "email",
-            "Email Address",
-            "example@mail.com",
-          )}
-          
+          {...getInputProps("email", "Email Address", "example@mail.com", errors.email)}
+          {...register("email", getFormValidation(watch).email)}
         />
 
         <div className="flex gap-4">
           <Input
-            {...getInputProps("password", "password", "Password", "••••••••")}
-            
+            {...getInputProps("password", "Password", "••••••••", errors.password)}
+            {...register("password", getFormValidation(watch).password)}
           />
           <Input
-            {...getInputProps("rePassword", "password", "Confirm", "••••••••")}
-            
+            {...getInputProps("password", "Confirm", "••••••••", errors.rePassword)}
+            {...register("rePassword", getFormValidation(watch).rePassword)}
           />
         </div>
 
         <Input
-          {...getInputProps("dateOfBirth", "date", "Birth date", "")}
-          
+          {...getInputProps("date", "Birth date", undefined, errors.dateOfBirth)}
+          {...register("dateOfBirth", getFormValidation(watch).birthDate)}
         />
-        <RadioGroup
-          label="Gender"
-          orientation="horizontal"
-          {...register("gender")}
+        <Select
+          {...getInputProps(undefined, "Gender", "Select gender", errors.gender)}
+          {...register("gender", getFormValidation(watch).gender)}
+          className="max-w-xs"
         >
-          <Radio
-            value="male"
-            classNames={{
-              wrapper: "group-data-[selected=true]:border-[#032e15]",
-              control: "bg-[#032e15]",
-            }}
-          >
+          <SelectItem key="male" textValue="male">
             Male
-          </Radio>
-          <Radio
-            value="female"
-            classNames={{
-              wrapper: "group-data-[selected=true]:border-[#032e15]",
-              control: "bg-[#032e15]",
-            }}
-          >
+          </SelectItem>
+          <SelectItem key="female" textValue="female">
             Female
-          </Radio>
-        </RadioGroup>
+          </SelectItem>
+        </Select>
 
         <Button
           type="submit"
@@ -103,10 +77,7 @@ export default function Register() {
         </Button>
 
         <p className="text-center text-sm text-slate-600">
-          Already have an account?{" "}
-          <span className="text-green-900 font-bold cursor-pointer hover:underline underline-offset-4">
-            Login
-          </span>
+          Already have an account? <span className="text-green-900 font-bold cursor-pointer hover:underline underline-offset-4">Login</span>
         </p>
       </form>
     </div>
