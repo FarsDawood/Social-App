@@ -1,14 +1,14 @@
 import { Input, Button, RadioGroup, Select, SelectItem } from "@heroui/react";
 import { useForm } from "react-hook-form";
-import { getFormValidation } from "./../validation/signUpFormValidation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { schema } from "../validation/registerSchema";
 
 export default function Register() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm({ mode: "onBlur" });
+  } = useForm({ resolver: zodResolver(schema), mode: "onBlur" });
 
   function getInputProps(_type, _label, _placeholder, _field) {
     return {
@@ -30,36 +30,17 @@ export default function Register() {
       <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-8 rounded-2xl shadow-2xl flex flex-col gap-6">
         <h2 className="text-2xl font-bold text-slate-900 text-center uppercase tracking-wider mb-2">Create Account</h2>
 
-        <Input
-          {...getInputProps("text", "Full Name", "Enter your full name", errors.name)}
-          {...register("name", getFormValidation(watch).name)}
-        />
+        <Input {...getInputProps("text", "Full Name", "Enter your full name", errors.name)} {...register("name")} />
 
-        <Input
-          {...getInputProps("email", "Email Address", "example@mail.com", errors.email)}
-          {...register("email", getFormValidation(watch).email)}
-        />
+        <Input {...getInputProps("email", "Email Address", "example@mail.com", errors.email)} {...register("email")} />
 
         <div className="flex gap-4">
-          <Input
-            {...getInputProps("password", "Password", "••••••••", errors.password)}
-            {...register("password", getFormValidation(watch).password)}
-          />
-          <Input
-            {...getInputProps("password", "Confirm", "••••••••", errors.rePassword)}
-            {...register("rePassword", getFormValidation(watch).rePassword)}
-          />
+          <Input {...getInputProps("password", "Password", "••••••••", errors.password)} {...register("password")} />
+          <Input {...getInputProps("password", "Confirm", "••••••••", errors.rePassword)} {...register("rePassword")} />
         </div>
 
-        <Input
-          {...getInputProps("date", "Birth date", undefined, errors.dateOfBirth)}
-          {...register("dateOfBirth", getFormValidation(watch).birthDate)}
-        />
-        <Select
-          {...getInputProps(undefined, "Gender", "Select gender", errors.gender)}
-          {...register("gender", getFormValidation(watch).gender)}
-          className="max-w-xs"
-        >
+        <Input {...getInputProps("date", "Birth date", undefined, errors.dateOfBirth)} {...register("dateOfBirth")} />
+        <Select {...getInputProps(undefined, "Gender", "Select gender", errors.gender)} {...register("gender")} className="max-w-xs">
           <SelectItem key="male" textValue="male">
             Male
           </SelectItem>

@@ -1,5 +1,5 @@
 import { regex } from "./regex";
-import { validateAge } from "./../helpers/date";
+import { calculateAge } from "./../helpers/date";
 export function getFormValidation(watch) {
   return {
     name: {
@@ -21,8 +21,7 @@ export function getFormValidation(watch) {
       required: { value: true, message: "Password is required" },
       pattern: {
         value: regex.password,
-        message:
-          "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character",
+        message: "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character",
       },
     },
     rePassword: {
@@ -30,21 +29,15 @@ export function getFormValidation(watch) {
         value: true,
         message: "Confirm Password is required",
       },
-      validate: (value) =>
-        value === watch("password") ||
-        "Password and Confirm Password must be the same",
+      validate: (value) => value === watch("password") || "Password and Confirm Password must be the same",
     },
-    birthDate: {
+    dateOfBirth: {
       required: { value: true, message: "Birth date is required" },
-      validate: (value) =>
-        validateAge(value) || "You must be at least 18 years old",
+      validate: (value) => calculateAge(value) >= 18 || "You must be at least 18 years old",
     },
     gender: {
       required: { value: true, message: "Gender is required" },
-      validate: (gender) =>
-        gender == "male" ||
-        gender == "female" ||
-        "Gender must be one of (Male, Female)",
+      validate: (gender) => gender == "male" || gender == "female" || "Gender must be one of (Male, Female)",
     },
   };
 }

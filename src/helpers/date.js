@@ -3,7 +3,7 @@
  * * @param {string} birthDateValue - The birth date string (usually from a date input).
  * @returns {boolean} - Returns true if the user is 18+, otherwise returns false.
  */
-export const validateAge = (birthDateValue) => {
+export const calculateAge = (birthDateValue) => {
   if (!birthDateValue) return true; // Leave empty check to 'required' validation
 
   const today = new Date();
@@ -20,5 +20,5 @@ export const validateAge = (birthDateValue) => {
     age--;
   }
 
-  return age >= 18;
+  return age;
 };
