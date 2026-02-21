@@ -8,6 +8,12 @@ export const schema = zod
       .nonempty("Name is required")
       .min(2, "Name must be at least 2 characters")
       .max(50, "Name must be at most 50 characters"),
+    username: zod
+      .string()
+      .min(1, "Username is required")
+      .min(5, "Username must be at least 5 characters")
+      .max(20, "Username cannot exceed 20 characters")
+      .regex(regex.username, "Username must contain only letters, numbers, periods, or underscores"),
     email: zod.string().nonempty("Email is required").regex(regex.email, "Enter valid email"),
     password: zod
       .string()
