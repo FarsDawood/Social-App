@@ -40,6 +40,9 @@ export default function Login() {
         variant: "flat",
         color: "default",
       });
+      console.log("Login successful:", data.data);
+      localStorage.setItem("userEmail", loginData.email);
+      localStorage.setItem("token", data.data.token);
       navigate("/");
     } catch (error) {
       if (error.response) setErrMsg(error.response.data.message);
