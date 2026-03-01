@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Navbar as HeroUiNavbar,
   NavbarBrand,
@@ -12,15 +12,16 @@ import {
   Button,
 } from "@heroui/react";
 import { Link, useNavigate, NavLink } from "react-router-dom";
+import { AuthContext } from './../contexts/AuthContext';
 
 export default function Navbar() {
   const navigate = useNavigate();
   const userEmail = localStorage.getItem("userEmail");
-
+  const { setUserToken } = useContext(AuthContext);
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userEmail");
-    navigate("/login");
+    setUserToken(null);
   };
 
   return (

@@ -10,6 +10,7 @@ import Feed from "./pages/Feed";
 import Register from "./Pages/Register";
 import ProtectedRoute from './protectedRoutes/ProtectedRoute';
 import ProtectedAuthRoute from './protectedRoutes/ProtectedAuthRoute';
+import { AuthContextProvider } from './contexts/AuthContext';
 
 export default function App() {
   const router = createBrowserRouter([
@@ -34,10 +35,12 @@ export default function App() {
 
   return (
     <>
+    <AuthContextProvider>
       <HeroUIProvider>
         <ToastProvider />
         <RouterProvider router={router} />
       </HeroUIProvider>
+    </AuthContextProvider>
     </>
   );
 }

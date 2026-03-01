@@ -3,13 +3,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { schema } from "../validation/loginSchema";
 import axios from "axios";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from './../contexts/AuthContext';
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
-  const navigate = useNavigate();
+  const { setUserToken } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -43,7 +44,7 @@ export default function Login() {
       console.log("Login successful:", data.data);
       localStorage.setItem("userEmail", loginData.email);
       localStorage.setItem("token", data.data.token);
-      navigate("/");
+      setUserToken(data.data.token);
     } catch (error) {
       if (error.response) setErrMsg(error.response.data.message);
       else setErrMsg(error.message);
