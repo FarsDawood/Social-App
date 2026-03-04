@@ -7,8 +7,10 @@ export default function MainLayout() {
   return (
     <>
       <Navbar />
-      <div className="container w-[80%] mx-auto p-5 min-h-screen">
-        <Outlet />
+      <div className=" bg-slate-50 dark:bg-slate-950">
+        <div className="container max-w-7xl mx-auto  py-8 px-4 min-h-screen">
+          <Outlet />
+        </div>
       </div>
       <Footer />
     </>

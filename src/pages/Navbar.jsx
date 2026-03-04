@@ -12,7 +12,7 @@ import {
   Button,
 } from "@heroui/react";
 import { Link, useNavigate, NavLink } from "react-router-dom";
-import { AuthContext } from './../contexts/AuthContext';
+import { AuthContext } from "./../contexts/AuthContext";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ export default function Navbar() {
               />
             </svg>
           </div>
-          <span className="font-black text-2xl text-green-900 tracking-tight">Sohba</span>
+          <span className="font-black text-2xl text-green-900 tracking-tight">Wanas</span>
         </Link>
       </NavbarBrand>
 

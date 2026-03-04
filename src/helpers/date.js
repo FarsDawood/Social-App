@@ -22,3 +22,13 @@ export const calculateAge = (birthDateValue) => {
 
   return age;
 };
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import "dayjs/locale/en";
+
+dayjs.extend(relativeTime);
+dayjs.locale("ar");
+
+export function formatPostDate(dateString) {
+  return dayjs(dateString).fromNow();
+}

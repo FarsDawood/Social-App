@@ -8,9 +8,9 @@ import AuthLayout from "./layouts/AuthLayout";
 import Login from "./pages/Login";
 import Feed from "./pages/Feed";
 import Register from "./Pages/Register";
-import ProtectedRoute from './protectedRoutes/ProtectedRoute';
-import ProtectedAuthRoute from './protectedRoutes/ProtectedAuthRoute';
-import { AuthContextProvider } from './contexts/AuthContext';
+import ProtectedRoute from "./protectedRoutes/ProtectedRoute";
+import ProtectedAuthRoute from "./protectedRoutes/ProtectedAuthRoute";
+import AuthContextProvider from "./contexts/AuthContext";
 
 export default function App() {
   const router = createBrowserRouter([
@@ -18,8 +18,22 @@ export default function App() {
       path: "",
       element: <MainLayout />,
       children: [
-        { path: "", element: <ProtectedRoute><Feed /></ProtectedRoute> },
-        { path: "profile", element: <ProtectedRoute><Profile/></ProtectedRoute>   },
+        {
+          path: "",
+          element: (
+            <ProtectedRoute>
+              <Feed />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "profile",
+          element: (
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          ),
+        },
         { path: "*", element: <NotFound /> },
       ],
     },
@@ -27,20 +41,34 @@ export default function App() {
       path: "",
       element: <AuthLayout />,
       children: [
-        { path: "login", element: <ProtectedAuthRoute><Login /></ProtectedAuthRoute> },
-        { path: "register", element: <ProtectedAuthRoute><Register /></ProtectedAuthRoute> },
+        {
+          path: "login",
+          element: (
+            <ProtectedAuthRoute>
+              <Login />
+            </ProtectedAuthRoute>
+          ),
+        },
+        {
+          path: "register",
+          element: (
+            <ProtectedAuthRoute>
+              <Register />
+            </ProtectedAuthRoute>
+          ),
+        },
       ],
     },
   ]);
 
   return (
     <>
-    <AuthContextProvider>
-      <HeroUIProvider>
-        <ToastProvider />
-        <RouterProvider router={router} />
-      </HeroUIProvider>
-    </AuthContextProvider>
+      <AuthContextProvider>
+        <HeroUIProvider>
+          <ToastProvider />
+          <RouterProvider router={router} />
+        </HeroUIProvider>
+      </AuthContextProvider>
     </>
   );
 }
